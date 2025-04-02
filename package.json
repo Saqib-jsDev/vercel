@@ -1,0 +1,15 @@
+{
+  "name": "notezipper",
+  "version": "1.0.0",
+  "description": "A mern project called note zipper from youtube channel roadsidecoder ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --watch backend/server.js "
+  },
+  "author": "Saqib Ali",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0"
+  }
+}
