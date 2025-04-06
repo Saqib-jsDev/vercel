@@ -1,9 +1,20 @@
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+import LandingPage from "./screens/landingpage/LandingPage";
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
+import MyNotes from "./screens/MyNotes";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Saqib mern Stack project 1</h1>
-    </div>
+
+    <BrowserRouter className="App">
+      <Header />
+      <Routes >
+        <Route path='/' element={<LandingPage />} />
+        <Route path="/mynotes" element={<MyNotes />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
