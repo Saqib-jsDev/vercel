@@ -16,8 +16,11 @@
 }
 @media only screen and (max-width:600px ){
     .heading{
-        font-size: 30px;
+        font-size: 30px;    
         display: flex;
         justify-content: center;
     }
+}
+.accordion-button{
+    border: none;
 }

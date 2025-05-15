@@ -1,6 +1,16 @@
 import { Button, Container, Row } from "react-bootstrap";
 import './LandingPage.css'
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 export default function LandingPage(){
+
+
+    //   useEffect(()=>{
+    //     const userInfo=     localStorage.getItem('userinfo')
+    // if (userInfo){
+    //     Navigate('/mynotes')
+    // }
+    //   },[])
     return <div className="main">
         <Container>
             <Row>
@@ -12,7 +22,7 @@ export default function LandingPage(){
                     <a  href="/login">
                     <Button size="lg" className="landingbutton">Login</Button>
                     </a>
-                    <a  href="/register">
+                    <a  href="/signup">
                     <Button size="lg" className="landingbutton" variant="outline-primary">register</Button>
                     </a>
                 </div>
