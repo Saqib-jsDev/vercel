@@ -56,7 +56,8 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const uploadDir = join(__dirname,'../../uploads')
+const uploadDir = `/uploads/${req.file.filename}`;
+
 if (!existsSync(uploadDir)){
   mkdirSync(uploadDir,{recursive:true})
 }

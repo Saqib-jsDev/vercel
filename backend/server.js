@@ -25,13 +25,14 @@ app.get("/api/notes", (req, res) => {
   res.setHeader("Content-Type", "application/json"); // Make sure the response type is JSON
   res.json(notes); // Send JSON as a string if you're not using res.json()
 });
+*/
 app.get("/api/notes/:id", (req, res) => {
   const note = notes.find((note) => note._id === req.params.id);
   return res.json(note);
-}); */
+}); 
 app.use("/api/users", userRouter);
 app.use("/api/notes", notesRouter);
-app.use("/uploads", express.static(join(__dirname, "uploads")));
+app.use('/uploads', express.static('uploads'));
 app.use(errorHandler);
 app.listen(3035, () => console.log("server is running at 3035 and watching"));
 

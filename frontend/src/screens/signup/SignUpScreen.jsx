@@ -60,12 +60,12 @@ const {loading,error,userInfo} = useSelector(state=>state.userAuth)
     dispatch(userSignupThunk(formData))
   }
   
-  useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
-    if (userInfo) {
-      navigate("/mynotes");
-    }
-  }, [userInfo,navigate ]);
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem("userInfo");
+  //   if (userInfo) {
+  //     navigate("/mynotes");
+  //   }
+  // }, [userInfo,navigate ]);
 
   return (
     <MainScreen title={"Sign Up"}>

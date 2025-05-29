@@ -4,27 +4,23 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, Links, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/features/user/userSlice";
-export default function Header() {
+export default function Header({setSearch}) {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
 
-
-  const hideOnRoutes = ["/login","/signup"];
+  const hideOnRoutes = ["/login", "/signup"];
 
   const isHidden = hideOnRoutes.includes(location.pathname);
-const handleLogout = ()=>{
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
-dispatch(logout())
-}
+  const userInfo = localStorage.getItem("userInfo");
+console.log(userInfo);
 
-
-  const userLoggedIn = localStorage.getItem("userInfo");
-  console.log(userLoggedIn);
-  
-  if (userLoggedIn) {
+  if (userInfo) {
   }
   return (
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
@@ -48,46 +44,33 @@ dispatch(logout())
             </Form>
           </Nav>
           <Nav>
-            <>
-              {console.log(userLoggedIn)}
+            <div>
 
-              <Link className="text-white" to="/mynotes">
+              <Link className="text-white mx-2" to="/mynotes">
                 My Notes
               </Link>
-
-              <NavDropdown
-                title={userLoggedIn?.name}
-                id="collasible-nav-dropdown"
-              >
-                <NavDropdown.Item href="/profile">
-                  {/* <img
+              <Link href="/profile" className="text-white mx-2">
+                  {<img
                       alt=""
-                      src={`${userInfo.pic}`}
-                      // width="25"
+                      src={`${userInfo?.pic}`}
+                      width="25"
                       height="25"
                       style={{ marginRight: 10 }}
-                    /> */}
+                    /> }
                   My Profile
-                </NavDropdown.Item>
-
-                <NavDropdown.Divider />
-              </NavDropdown>
-            </>
-            {!isHidden && (
-       userLoggedIn ? (
-        <Nav.Link
-          href="/login"
-          onClick={handleLogout}
-        >
-          Logout
-        </Nav.Link>
-      ) : (
-        <Nav.Link href="/login" className="text-white">
-          Login
-        </Nav.Link>
-      )
-)}
-       
+                </Link>
+{!isHidden &&
+              (userInfo ? (
+                <Link href="/" onClick={handleLogout}className="text-white">
+                  Logout
+                </Link>
+              ) : (
+                <Link href="/login" className="text-white">
+                  Login
+                </Link>
+              ))}
+            </div>
+            
           </Nav>
         </Navbar.Collapse>
       </Container>

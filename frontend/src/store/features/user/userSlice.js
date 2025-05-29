@@ -4,6 +4,7 @@ import {userLoginthunk,userSignupThunk} from "./userActions";
 
 const userFromLS = localStorage.getItem("userInfo")? JSON.parse(localStorage.getItem("userInfo")):null;
 const initialState = {  
+  userInfo:userFromLS,
   loading: false,
   error: "",
 };
