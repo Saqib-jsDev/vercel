@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllNotesThunk } from "../store/features/notes/notesActions";
 
 export default function useNotes(fetchOnMount = false) {
-  const {  userInfo } = useSelector((state) => state.userAuth);
-  const { loading, error,notes  } = useSelector((state) => state.notes);
+  const { loading:userLoading, userInfo } = useSelector((state) => state.userAuth);
+  const { loading:notesLoading, error,notes  } = useSelector((state) => state.notes);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -13,5 +13,5 @@ export default function useNotes(fetchOnMount = false) {
     }
   }, [dispatch, fetchOnMount]);
 
-  return { loading, error, notes };
+  return { userLoading,notesLoading, error, notes,userInfo,dispatch };
 }

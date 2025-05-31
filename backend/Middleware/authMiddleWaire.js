@@ -6,22 +6,14 @@ import expressAsyncHandler from "express-async-handler";
 
 config();
 const protect = expressAsyncHandler(async (req, res, next) => {
-  console.log(
-    req.body,
-    "from protect middleWare this is req.body",
-    req.headers.Authorization,
-    "req.headers.Authorization"
-  );
+
   let token;
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      console.log(
-        req.headers,
-        "From Protect req.headers.authorization"
-      );
+  
 
       token = req.headers.authorization.split(" ")[1];
 

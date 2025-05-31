@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {userLoginthunk,userSignupThunk} from "./userActions";
+import { userLoginthunk, userSignupThunk, userUpdateProfileThunk } from "./userActions";
 
-
-const userFromLS = localStorage.getItem("userInfo")? JSON.parse(localStorage.getItem("userInfo")):null;
-const initialState = {  
-  userInfo:userFromLS,
+const userFromLS = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+const initialState = {
+  userInfo: userFromLS,
   loading: false,
   error: "",
 };
@@ -21,7 +22,6 @@ const userAuthSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(userLoginthunk.pending, (state, action) => {
-        console.log("login pending");
 
         state.loading = true;
       })
@@ -32,18 +32,28 @@ const userAuthSlice = createSlice({
       .addCase(userLoginthunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to login";
-      })   .addCase(userSignupThunk.pending, (state, action) => {
-        console.log("signUp  pending","action payload",action);
+      })
+      .addCase(userSignupThunk.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(userSignupThunk.fulfilled, (state, action) => {
         state.userInfo = action.payload;
-        console.log("signUp  fulfilled","action payload",action);
 
         state.loading = false;
       })
       .addCase(userSignupThunk.rejected, (state, action) => {
-        console.log("signUp  rejected","action payload",action);
+        state.loading = false;
+        state.error = action.payload || "Failed to login";
+      })
+      .addCase(userUpdateProfileThunk.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(userUpdateProfileThunk.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+
+        state.loading = false;
+      })
+      .addCase(userUpdateProfileThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to login";
       });

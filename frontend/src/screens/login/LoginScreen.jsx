@@ -15,7 +15,6 @@ export default function LoginScreen() {
 
 
 const {loading,error,userInfo} = useSelector(state=>state.userAuth)
-console.log(userInfo,"loading",loading);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +23,6 @@ const dispatch =   useDispatch()
 const navigate = useNavigate();
 
 useEffect(() => {
-  const userInfo = localStorage.getItem("userInfo");
   if (userInfo) {
     navigate("/mynotes");
   }

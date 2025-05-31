@@ -35,7 +35,6 @@ const notesSlice = createSlice({
       })
       .addCase(deleteNoteThunk.fulfilled, (state, action) => {
         const deletedNote = action.payload;
-        console.log(deletedNote,"from slice fullfilled deleted note");
         
         state.error = false;
         state.loading = false;

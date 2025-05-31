@@ -5,40 +5,13 @@ import { existsSync, mkdirSync } from "fs";
 import generateToken from "../utils/generateToken.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+
+import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const createUser = asyncHandler(async function (req, res) {
-  console.log("file for test ",req.file)
-  console.log("Body for test",req.body)
-  
-  
-  const { name, email, password } = req.body;
-  
-  const userExist = await User.findOne({ email });
-  if (userExist) {
-    res.status(401);
-    throw new Error("User Already Exist ");
-  } 
-  const user = await User.create({
-    name,
-    email,
-    password,
-    pic:req.file.path
-  });
-  
-   console.log(generateToken(user._id));
-  if (user) {
-    return res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      pic: user.pic,
-      token:generateToken(user._id)
-    });
-  }
-});
+
 const authUser = asyncHandler(async (req, res) => {
-  const {email, password } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
@@ -48,29 +21,91 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       pic: user.pic,
-      token:generateToken(user._id)
+      token: generateToken(user._id),
     });
-  } else{
+  } else {
     res.status(400);
     throw new Error("Invalid Email or Password ");
   }
 });
 
-const uploadDir = `/uploads/${req.file.filename}`;
+const createUser = asyncHandler(async function (req, res) {
 
-if (!existsSync(uploadDir)){
-  mkdirSync(uploadDir,{recursive:true})
-}
-const storage = diskStorage({
-  destination:function (req,file,cb){
-    return cb(null,uploadDir)
-  },
-  filename:function (req,file,cb){
-    return cb(null,file.originalname)
+
+  const { name, email, password } = req.body;
+
+  const userExist = await User.findOne({ email });
+  if (userExist) {
+    res.status(401);
+    throw new Error("User Already Exist ");
   }
+  const user = await User.create({
+    name,
+    email,
+    password,
+    pic: `/uploads/${req.file.filename}`,
+  });
+
+  if (user) {
+    return res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+      token: generateToken(user._id),
+    });
+  }
+});
+
+const uploadPath = path.join(process.cwd(), "uploads");
+
+if (!existsSync(uploadPath)) {
+  mkdirSync(uploadPath, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+
+/// profile update Controller 
+
+const updateUserProfile = asyncHandler(async function (req,res) {
+
+  const user = await User.findById(req.user._id);
+  if (user){
+    user.name= req.body.name || user?.name;
+    user.email = req.body?.email || user?.email;
+    if (req.file){
+
+      user.pic = `/uploads/${req.file.filename}` || user?.pic;
+    }
+    if(req.body.password){
+      user.password = req.body.password 
+    }
+    
+    const updatedUser = await user.save();
+    res.json({
+      _id :updatedUser._id,
+      name:updatedUser.name,
+      email:updatedUser.email,
+      pic:updatedUser.pic,
+      token:generateToken(updatedUser._id)
+    })
+
+  } else{
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+
+   
 })
 
-const upload = multer({storage})
-
-
-export  { createUser, upload, authUser };
+export { createUser, upload, authUser,updateUserProfile };

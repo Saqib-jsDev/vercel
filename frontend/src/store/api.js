@@ -1,11 +1,8 @@
 import axios from 'axios';
+export const baseURL= 'http://127.0.0.1:3035';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3035/', // <-- change this to your backend port
+  baseURL,
   timeout: 5000,
-  headers: {
-        'Content-Type': 'application/json',
-  },
 });
-
 export default api;

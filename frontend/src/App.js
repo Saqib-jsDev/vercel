@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { useState } from "react";
+import ProfileScreen from "./screens/profile/ProfileScreen";
 
 function App() {
   const [search ,setSearch] = useState("")
@@ -27,14 +28,15 @@ function App() {
             <Route
               path="/mynotes"
               element={
-                <ProtectedRoute>
                   <MyNotes search={search} />
-                </ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
               }
             />
             <Route path="/mynotes/createnote" element={<CreateNote />} />
             <Route path="/note/:id" element={<UpdateNote />} />
             <Route path="/login" element={<LoginScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/signup" element={<SignUpScreen />} />
           </Routes>
           <Footer />

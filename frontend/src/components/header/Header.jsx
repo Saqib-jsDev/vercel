@@ -2,25 +2,28 @@ import Container from "react-bootstrap/Container";
 import { Nav, Form, FormControl, Button } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, Links, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect,  } from "react";
+import { useDispatch, useSelector, } from "react-redux";
 import { logout } from "../../store/features/user/userSlice";
-export default function Header({setSearch}) {
-  const location = useLocation();
+import useNotes from "../../customHooks/useNotes";
+import { baseURL } from "../../store/api";
+export default function Header({ setSearch }) {
+  
   const navigate = useNavigate();
-
-  const hideOnRoutes = ["/login", "/signup"];
-
-  const isHidden = hideOnRoutes.includes(location.pathname);
+  const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
   };
-
-  const userInfo = localStorage.getItem("userInfo");
-console.log(userInfo);
-
-  if (userInfo) {
+const {userInfo} = useNotes()
+  useEffect(() => {
+    if (!userInfo?.name) {
+      navigate("/login");
+    }
+  }, [userInfo]);
+  const profileHandle = (e)=>{
+    e.preventDefault();
+    navigate("/profile")
   }
   return (
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
@@ -43,34 +46,35 @@ console.log(userInfo);
               />
             </Form>
           </Nav>
-          <Nav>
-            <div>
-
-              <Link className="text-white mx-2" to="/mynotes">
-                My Notes
-              </Link>
-              <Link href="/profile" className="text-white mx-2">
-                  {<img
+          
+           <Nav>
+            {userInfo?.name ? (
+              <>
+                <Nav.Link href="/mynotes">My Notes</Nav.Link>
+                <NavDropdown
+                  title={`${userInfo.name}`}
+                  id="collasible-nav-dropdown"
+                >
+                  <NavDropdown.Item onClick={e=>profileHandle(e)}>
+                     <img
                       alt=""
-                      src={`${userInfo?.pic}`}
+                      src={`${baseURL}${userInfo?.pic}`}
                       width="25"
                       height="25"
                       style={{ marginRight: 10 }}
-                    /> }
-                  My Profile
-                </Link>
-{!isHidden &&
-              (userInfo ? (
-                <Link href="/" onClick={handleLogout}className="text-white">
-                  Logout
-                </Link>
-              ) : (
-                <Link href="/login" className="text-white">
-                  Login
-                </Link>
-              ))}
-            </div>
-            
+                    /> 
+                    My Profile
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <Nav.Link href="/login">Login</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

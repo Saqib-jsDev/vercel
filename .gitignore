@@ -5,9 +5,10 @@
 node_modules/
 frontend/node_modules
 backend/uploads
+backend/controllers/userController copy.js
 /.pnp
 .pnp.js
-
+server1 copy.js
 # testing
 /coverage
 

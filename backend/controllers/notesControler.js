@@ -4,10 +4,8 @@ import asyncHandler from "express-async-handler";
 
 const getNotes = asyncHandler(
     async (req,res)=>{
-        console.log(req.user,"from getNotes controller this is req.user");
         
-        // const notes = await Note.find();
-        const notes = await Note.find({user:req.user._id}).select("title content category");
+        const notes = await Note.find({user:req.user._id})
     
         return res.json(notes)
     } 
@@ -18,7 +16,7 @@ const getNotes = asyncHandler(
         res.status(400);
         throw new Error("Please fill All fields")
     } else {
-        const note = new Note({user:req.user._id,title,content,category});
+        const note = new Note({user:req.user._id,title,content,category,createdOn});
         const createdNote = await note.save();
        return res.status(201).json(createdNote)
     }
@@ -56,7 +54,6 @@ const updateNotes = asyncHandler(async (req,res) => {
 
 const deleteNotes = asyncHandler(async (req,res) => {
     const deletenoteId = req.params?.id ;
-    console.log("note Id from Delete Controller",deletenoteId);     
     
     const note =  await Note?.findById(deletenoteId)
     if(!note){
