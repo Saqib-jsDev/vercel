@@ -1,8 +1,8 @@
 import axios from 'axios';
-export const baseURL= 'http://127.0.0.1:3035';
+// export const baseURL= `${import.meta.env.BASE_URL_FOR_CRA}`
 
 const api = axios.create({
-  baseURL,
+  baseURL:"/",
   timeout: 5000,
 });
 export default api;
