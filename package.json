@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "A mern project called note zipper from youtube channel roadsidecoder ",
   "type": "module",
-  "main": "server.js",
-  "runtimeArgs": ["--loader", "esm"]
-,
+"main": "api/index.js",
   "scripts": {
-    "start": "node --watch backend/server.js "
+    " "start": "node api/index.js",
+  "build": "cd frontend && npm install && npm run build"
   },
   "author": "Saqib Ali",
   "license": "ISC",
