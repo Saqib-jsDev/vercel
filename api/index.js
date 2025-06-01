@@ -18,13 +18,13 @@ app.use(cors());
 ///// Deployment code 31.05.2025
 
 
-const __dirname = path.resolve();
-if (process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname,"frontend/build")));
-  app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"frontend","build","index.hmtl"));
-  })
-}
+// const __dirname = path.resolve();//
+//if (process.env.NODE_ENV === "production"){
+//  app.use(express.static(path.join(__dirname,"frontend/build")));
+//app.get("*",(req,res)=>{
+//    res.sendFile(path.resolve(__dirname,"frontend","build","index.hmtl"));
+//})
+/
 
 
 const port = process.env.PORT || 4045
@@ -34,7 +34,7 @@ app.use("/api/users", userRouter);
 app.use("/api/notes", notesRouter);
 app.use('/uploads', express.static('uploads'));
 app.use(errorHandler);
-app.listen(port, () => console.log("server is running at 3035 and watching"));
+// app.listen(port, () => console.log("server is running at 3035 and watching"));
 
 
 
